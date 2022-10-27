@@ -1,10 +1,14 @@
 import "dotenv/config";
 import "./database/connectdb.js";
 import express from "express";
+import authRouter from "./routes/auth.route.js";
+
 const app = express(); 
 
-//*This line is say Ok
-app.get('/',(req,res)=>{res.json({'ok':true})})
+
+//* Add User Router
+app.use('/',authRouter)
+
 //*This line is Config PORT 
 const PORT = process.env.PORT || 5000;
 //* Listen the PORT
