@@ -5,11 +5,13 @@ import authRouter from "./routes/auth.route.js";
 
 const app = express(); 
 
+//* Enable submit json
+app.use(express.json());
 
 //* Add User Router
-app.use('/',authRouter)
+app.use('/api/v1',authRouter)
 
-//*This line is Config PORT 
+//* This line is Config PORT 
 const PORT = process.env.PORT || 5000;
 //* Listen the PORT
 app.listen(PORT,()=>console.log('http://localhost:'+ PORT));

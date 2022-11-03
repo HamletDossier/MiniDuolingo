@@ -1,12 +1,35 @@
 import express from 'express';
+import { login, register } from '../controllers/auth.controller.js';
+import {body} from 'express-validator';
+import { ValidationResultExpress } from '../middlewares/validationResultExpress.js';
 const router = express.Router();
 
-router.get("/login", (req,res) => {
-	res.json({'ok':'loging'});
-});
+/*
+	*Register
+*/
+router.post('/register',[
+	body('email', 'Wrong Email Format')
+		.trim()
+		.isEmail()
+		.normalizeEmail(),
+	body('password','Wrong Password Format')
+		.isLength({ min:6 })
+	],
+	ValidationResultExpress,
+	register);
 
-router.get('/register',(req,res)=>{
-	res.json({'ok':true});
-});
+/*
+	*Login
+*/
+router.post("/login", [
+	body('email', 'Wrong Email Format')
+		.trim()
+		.isEmail()
+		.normalizeEmail(),
+	body('password','Wrong Password Format')
+		.isLength({ min:6 })
+	],
+	ValidationResultExpress,
+	login);
 
 export default router;
