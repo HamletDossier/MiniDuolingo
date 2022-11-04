@@ -1,8 +1,12 @@
-import {Schema,model} from "mongoose";
+import mongoose from "mongoose";
+import bcryptjs from 'bcryptjs';
 
-const userSchema = new Schema({
+/*
+	* New Schema (User)
+*/
+const userSchema = new mongoose.Schema({
 	email:{
-		type:string,
+		type:String,
 		require:true,
 		trim:true,
 		unique:true,
@@ -11,9 +15,36 @@ const userSchema = new Schema({
 
 	},
 	password:{
-		type:string,
+		type:String,
+		require:true,
+	},
+	salt:{
+		type:String,
 		require:true,
 	}
 });
 
-export const User = model('user',userSchema);
+/*
+	* Hash Password
+*/
+userSchema.pre("save", async function(next){
+	//* User value
+	const user = this;
+
+	if(!user.isModified('password')) return next();
+	try {
+		//* Create a new salt
+		user.salt = await bcryptjs.genSalt(10);
+		//* Hash Password
+		user.password = await bcryptjs.hash(user.password,user.salt);
+		//* Next
+		next();
+	} catch (error) {
+		console.log(error);
+		//* Create a new Error
+		throw new Error('Error to hash a password');
+	}
+});
+
+//* Export Schema
+export const User = mongoose.model('User',userSchema);
