@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 //* Add User Router
-app.use('/api/v1',authRouter)
+app.use('/api/v1/auth',authRouter)
 
 //* This line is Config PORT 
 const PORT = process.env.PORT || 5000;
