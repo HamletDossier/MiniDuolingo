@@ -13,7 +13,7 @@ export const register = async (req,res)=>{
 		})
 		//* Save user
 		await user.save();
-		//* Return jwt
+		//* Generate token with JWT
 		return res.json({ok:true});
 
 	} catch (error) {
@@ -26,5 +26,21 @@ export const register = async (req,res)=>{
 }
 
 export const login = async (req,res) => {
-	res.json({'ok':'loging'});
+	try {
+		//* Get email and passwrod from request
+		const {email,password} = req.body;
+		//* Search if exist email
+		let user = await User.findOne({email});
+		//* If don't exist the user
+		if(!user) return res.status(403).json({error:"Don't exist the user"});
+		//* Comparation to password from user.js
+		const respuestaPassword = await user.comparePassword(password);
+		//* If don't comparation submit status 403
+		if(!respuestaPassword) return res.status(403).json({error:"Don't exist the user"});
+		//* Generate token with JWT
+		return res.json({ok:"json"})
+	} catch (error) {
+		console.log(error);
+		
+	}
 }
