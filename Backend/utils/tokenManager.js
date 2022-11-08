@@ -11,3 +11,21 @@ export const generateToken = (uid) => {
 		
 	}
 };
+
+export const generateRefreshToken = (uid,res) =>{
+	//* 30 days expires
+	const expiresIn = 60 * 60 * 24 * 30;
+	try {
+		//* Sing refresh token
+		const refreshToken = jwt.sign({uid},process.env.JWT_REFRESH,{expiresIn});
+		//* Send cookie client
+		res.cookie("refreshToken",refreshToken,{
+			httpOnly: true,
+			secure: !(process.env.MODO === "developer"),
+			expires:new Date(Date.now() + expiresIn * 1000)
+		});
+	} catch (error) {
+		//* Error server
+		console.log(error);
+	}
+}

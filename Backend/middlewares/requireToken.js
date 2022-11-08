@@ -8,7 +8,7 @@ export const requireToken = (req,res,next) =>{
 		//* Get only token
 		token = token.split(" ")[1];
 		//* Get payload
-		const {uid} =jwt.verify(token, process.env.JWT_SECRET)
+		const {uid} =jwt.verify(token, process.env.JWT_SECRET);
 		//* Set uid
 		req.uid = uid;
 		//* Ok next

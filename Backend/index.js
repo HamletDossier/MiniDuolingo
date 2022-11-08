@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import "dotenv/config";
 import "./database/connectdb.js";
 import express from "express";
@@ -7,6 +8,8 @@ const app = express();
 
 //* Enable submit json
 app.use(express.json());
+//* Enable cookies
+app.use(cookieParser());
 
 //* Add User Router
 app.use('/api/v1/auth',authRouter)
