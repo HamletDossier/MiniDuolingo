@@ -1,4 +1,5 @@
-import {User} from '../models/User.js'
+import {User} from '../models/User.js';
+import { generateToken } from '../utils/tokenManager.js';
 export const register = async (req,res)=>{
 	//* Get email and passwrod from request
 	const {email,password} = req.body;
@@ -37,10 +38,21 @@ export const login = async (req,res) => {
 		const respuestaPassword = await user.comparePassword(password);
 		//* If don't comparation submit status 403
 		if(!respuestaPassword) return res.status(403).json({error:"Don't exist the user"});
-		//* Generate token with JWT
-		return res.json({ok:"json"})
+		//* Generate token and expires from tokenManager.js
+		const {token,expiresIn} = generateToken(user.id);
+		return res.json({token,expiresIn});
 	} catch (error) {
 		console.log(error);
 		
+	}
+}
+
+export const infoUser = async (req,res) =>{
+	try {
+		const user = await User.findById(req.uid).lean()
+		res.json({email:user.email})
+		
+	} catch (error) {
+		return res.status(500).json({error:'Server error'});
 	}
 }
