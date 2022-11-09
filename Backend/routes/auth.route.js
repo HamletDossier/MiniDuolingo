@@ -3,6 +3,7 @@ import { infoUser, login, register,refreshToken, logout } from '../controllers/a
 import {body} from 'express-validator';
 import { ValidationResultExpress } from '../middlewares/validationResultExpress.js';
 import { requireToken } from "../middlewares/requireToken.js";
+import { requiereRefreshToken } from "../middlewares/requireRefreshToken.js";
 const router = Router();
 
 /*
@@ -36,7 +37,7 @@ router.post("/login", [
 	//* Examples
 */
 router.get('/protected',requireToken,infoUser);
-router.get('/refresh',refreshToken);
+router.get('/refresh',requiereRefreshToken,refreshToken);
 router.get('/logout',logout);
 
 export default router;

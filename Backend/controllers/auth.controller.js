@@ -46,6 +46,7 @@ export const login = async (req,res) => {
 		//* Return token
 		return res.json({token,expiresIn});
 	} catch (error) {
+		//* Return error
 		return res.status(500).json({error:'Server error'});
 	}
 }
@@ -58,24 +59,19 @@ export const infoUser = async (req,res) =>{
 		res.json({email:user.email});
 		
 	} catch (error) {
+		//* Return error
 		return res.status(500).json({error:'Server error'});
 	}
 }
 export const refreshToken = (req,res)=>{
 	try {
-		const refreshTokenCookie = req.cookies.refreshToken;
-		//* If token don't exist 
-		if(!refreshTokenCookie) throw new Error("Require Token");
-		//* Get payload
-		const {uid} =jwt.verify(refreshTokenCookie, process.env.JWT_REFRESH);
 		//* Generate token and expires from tokenManager.js
-		const {token,expiresIn} = generateToken(uid);
+		const {token,expiresIn} = generateToken(res.uid);
 		//* Return token
 		return res.json({token,expiresIn});
 	} catch (error) {
-		return res.status(401).json({
-			error:error.message
-		});
+		//* Return error
+		return res.status(500).json({error:'Server error'});
 	}
 };
 
