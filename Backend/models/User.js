@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcryptjs from 'bcryptjs';
 
+
 /*
 	* New Schema (User)
 */
@@ -12,16 +13,16 @@ const userSchema = new mongoose.Schema({
 		unique:true,
 		lowercase:true,
 		index:{ unique:true }
-
 	},
 	password:{
 		type:String,
 		require:true,
 	},
-	salt:{
-		type:String,
-		require:true,
+	role:{
+		type:mongoose.Schema.Types.ObjectId,
+		ref:"Role"
 	}
+
 });
 
 /*
@@ -34,15 +35,14 @@ userSchema.pre("save", async function(next){
 	if(!user.isModified('password')) return next();
 	try {
 		//* Create a new salt
-		user.salt = await bcryptjs.genSalt(10);
+		const salt = await bcryptjs.genSalt(10);
 		//* Hash Password
-		user.password = await bcryptjs.hash(user.password,user.salt);
+		user.password = await bcryptjs.hash(user.password,salt);
 		//* Next
 		next();
 	} catch (error) {
-		console.log(error);
 		//* Create a new Error
-		throw new Error('Error to hash a password');
+		throw new Error(error);
 	}
 });
 

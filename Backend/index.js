@@ -3,9 +3,13 @@ import "dotenv/config";
 import "./database/connectdb.js";
 import express from "express";
 import authRouter from "./routes/auth.route.js";
+import { createAdmin, createRoles } from "./libs/initialSetup.js";
 
 const app = express(); 
-
+//* Create Roles
+createRoles();
+//* Create Admin
+createAdmin();
 //* Enable submit json
 app.use(express.json());
 //* Enable cookies

@@ -1,6 +1,7 @@
 import {User} from '../models/User.js';
 import { generateRefreshToken, generateToken } from '../utils/tokenManager.js';
 import jwt from 'jsonwebtoken';
+import { Role } from '../models/Role.js';
 export const register = async (req,res)=>{
 	//* Get email and passwrod from request
 	const {email,password} = req.body;
@@ -8,10 +9,13 @@ export const register = async (req,res)=>{
 		//* Search if exist email
 		let user = await User.findOne({email});
 		if(user) throw {code:11000};
+		//* Search the user role 
+		const role = await Role.findOne({name:'user'},{name:0,_id:1});
 		//* Add new instance
 		user = new User({
 			email,
-			password
+			password,
+			role
 		})
 		//* Save user
 		await user.save();
