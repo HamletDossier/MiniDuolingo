@@ -29,3 +29,12 @@ export const generateRefreshToken = (uid,res) =>{
 		console.log(error);
 	}
 }
+
+export const addTokensByIDUser = (userID,res)=>{
+	//* Generate token and expires
+	const {token,expiresIn} = generateToken(userID);
+	//* Generate refresh token
+	generateRefreshToken(userID,res);
+	//* Return
+	return {token,expiresIn};
+}

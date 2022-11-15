@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcryptjs from 'bcryptjs';
+import { Role } from "./Role.js";
 
 
 /*
@@ -55,6 +56,32 @@ userSchema.methods.comparePassword = async function(candidatePassword){
 	//* Comparation
 	return await bcryptjs.compare(candidatePassword, user.password);
 };
+/*
+	* Creat a new user with:
+	! Email, password and role
+*/
+userSchema.statics.crateNewUser = async function(data){
+	try {
+		//* Get values
+		let {email,password,role} = data;
+		//* Search the user role 
+		role = await Role.getIDByName(role);
+		//* Add new instance
+		let newUser = new User({
+			email,
+			password,
+			role
+		})
+		//* Save user
+		newUser = await newUser.save();
+		//* Return new User
+		return newUser;
+		
+	} catch (error) {
+		console.log(error);
+		
+	}
 
+}
 //* Export Schema
 export const User = mongoose.model('User',userSchema);
