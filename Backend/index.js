@@ -1,20 +1,10 @@
-import cookieParser from "cookie-parser";
 import "dotenv/config";
+import app from "./app.js";
 import "./database/connectdb.js";
-import express from "express";
-import authRouter from "./routes/auth.route.js";
 import { initialSetup } from "./libs/initialSetup.js";
 
-const app = express(); 
 //* Create Admin and Roles
 initialSetup();
-//* Enable submit json
-app.use(express.json());
-//* Enable cookies
-app.use(cookieParser());
-
-//* Add User Router
-app.use('/api/v1/auth',authRouter)
 
 //* This line is Config PORT 
 const PORT = process.env.PORT || 5000;
