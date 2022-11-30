@@ -12,7 +12,6 @@ export const requiereRefreshToken = (req,res,next)=>{
 		//* Next
 		next();
 	} catch (error) {
-		console.log(error);
 		return res.status(401).json({
 			error:error.message
 		});
