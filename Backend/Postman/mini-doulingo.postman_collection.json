@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "722f6c26-1b8e-48f4-9c78-ba2736e174d2",
+		"name": "mini-doulingo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8336861"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \" yo@example.com \",\r\n    \"password\": \"example123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/v1/auth/login",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Protected - (Example)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2Mzg3ODgxZDMxNGQyNjI3MDIxMTIwMjYiLCJpYXQiOjE2Njk4Mjg3MjIsImV4cCI6MTY2OTgyOTYyMn0.SP0mcsJoI2VKfbpj5QhSPyHzw2K7WXnxlyMJKXmRaE0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/v1/auth/protected",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"protected"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/api/v1/auth/refresh",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/api/v1/auth/logout",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \" yo@example.com \",\r\n    \"password\": \"example123\"\r\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/v1/auth/register",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "endpoint",
+			"value": "http://localhost:5000"
+		}
+	]
+}
